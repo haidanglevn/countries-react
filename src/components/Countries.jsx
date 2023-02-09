@@ -10,6 +10,7 @@ import Row from "react-bootstrap/Row";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { initializeCountries } from "../features/countries/countriesSlice";
+import { Spinner } from "react-bootstrap";
 
 const Countries = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,84 @@ const Countries = () => {
   useEffect(() => {
     dispatch(initializeCountries());
   }, [dispatch]);
+
+  const renderApp = () => {
+    if (loading == true) {
+      console.log(`page is loading`);
+      return (
+        <Col style={{ width: "100%" , padding: "50px 0"}}>
+          <div className="d-flex justify-content-center">
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
+        </Col>
+      );
+    } else {
+      console.log(`Loading done!`);
+      return countriesList
+        .filter((c) => {
+          return c.name.official.toLowerCase().includes(search.toLowerCase());
+        })
+        .map((country) => {
+          return (
+            <Col className="mt-5" key={country.name.common}>
+              <LinkContainer
+                to={`/countries/${country.name.common}`}
+                state={{ country: country }}
+              >
+                <Card className="h-100">
+                  <Card.Body className="d-flex flex-column">
+                    <Card.Img
+                      src={country.flags.svg}
+                      style={{
+                        objectFit: "cover",
+                        height:"200px",
+                      }}
+                    ></Card.Img>
+                    <Card.Title>{country.name.common}</Card.Title>
+                    <Card.Subtitle className="mb-5 text-muted">
+                      {country.name.official}
+                    </Card.Subtitle>
+                    <ListGroup
+                      variant="flush"
+                      className="flex-grow-1 justify-content-end"
+                    >
+                      <ListGroup.Item>
+                        <i className="bi bi-translate me-2">
+                          {` ${Object.values(country.languages || {}).join(
+                            ", "
+                          )}`}
+                          {/* Martin way */}
+                        </i>
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <i className="bi bi-cash-coin me-2">
+                          {country.currencies
+                            ? ` ${Object.values(country.currencies)
+                                .map((currency) => currency.name)
+                                .join(", ")}`
+                            : `-------`}{" "}
+                          {/* Lera way */}
+                        </i>
+                      </ListGroup.Item>
+
+                      <ListGroup.Item>
+                        <i className="bi bi-people me-2">
+                          {` ${new Intl.NumberFormat().format(
+                            country.population
+                          )}`}
+                        </i>
+                      </ListGroup.Item>
+                    </ListGroup>
+                  </Card.Body>
+                </Card>
+              </LinkContainer>
+            </Col>
+          );
+        });
+    }
+  };
 
   return (
     <Container fluid>
@@ -41,64 +120,7 @@ const Countries = () => {
         </Col>
       </Row>
       <Row xs={2} md={3} lg={4} className=" g-3">
-        {countriesList
-          .filter((c) => {
-            return c.name.official.toLowerCase().includes(search.toLowerCase());
-          })
-          .map((country) => {
-            return (
-              <Col className="mt-5" key={country.name.common}>
-                <LinkContainer
-                  to={`/countries/${country.name.common}`}
-                  state={{ country: country }}
-                >
-                  <Card className="h-100">
-                    <Card.Body className="d-flex flex-column">
-                      <Card.Img
-                        src={country.flags.svg}
-                        style={{
-                          objectFit: "cover",
-                          maxHeight: "200px",
-                          minHeight: "150px",
-                        }}
-                      ></Card.Img>
-                      <Card.Title>{country.name.common}</Card.Title>
-                      <Card.Subtitle className="mb-5 text-muted">
-                        {country.name.official}
-                      </Card.Subtitle>
-                      <ListGroup
-                        variant="flush"
-                        className="flex-grow-1 justify-content-end"
-                      >
-                        <ListGroup.Item>
-                          <i className="bi bi-translate me-2">
-                            {Object.values(country.languages || {}).join(", ")}
-                            {/* Martin way */}
-                          </i>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                          <i className="bi bi-cash-coin me-2">
-                            {country.currencies
-                              ? Object.values(country.currencies)
-                                  .map((currency) => currency.name)
-                                  .join(", ")
-                              : `-------`}{" "}
-                            {/* Lera way */}
-                          </i>
-                        </ListGroup.Item>
-
-                        <ListGroup.Item>
-                          <i className="bi bi-people me-2">
-                            {new Intl.NumberFormat().format(country.population)}
-                          </i>
-                        </ListGroup.Item>
-                      </ListGroup>
-                    </Card.Body>
-                  </Card>
-                </LinkContainer>
-              </Col>
-            );
-          })}
+        {renderApp()}
       </Row>
     </Container>
   );
