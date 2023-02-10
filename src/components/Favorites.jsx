@@ -13,19 +13,27 @@ import { initializeCountries } from "../features/countries/countriesSlice";
 import { Spinner } from "react-bootstrap";
 import { addFavorite } from "../features/countries/favoriteSlice";
 
-
-const Countries = () => {
+const Favorites = () => {
   const dispatch = useDispatch();
 
-  const countriesList = useSelector((state) => state.countries.countries);
+  let countriesList = useSelector((state) => state.countries.countries);
   const loading = useSelector((state) => state.countries.isLoading);
   const [search, setSearch] = useState("");
-  
+  const [favoritesList, setFavoritesList] = useState([]);
+
+  if (favoritesList !== null) {
+    countriesList = countriesList.filter((c) =>
+      favoritesList.includes(c.name.common)
+    );
+  } else {
+    countriesList = [];
+  }
 
   //  console.log("Search: ", search)
   console.log(countriesList);
   useEffect(() => {
     dispatch(initializeCountries());
+    setFavoritesList(localStorage.getItem("Favorites"));
   }, [dispatch]);
 
   const renderApp = () => {
@@ -54,12 +62,6 @@ const Countries = () => {
         .map((country) => {
           return (
             <Col className="mt-5" key={country.name.common}>
-              <button>
-                <i
-                  className="bi bi-heart-fill"
-                  onClick={() => dispatch(addFavorite(country.name.common))}
-                ></i>
-              </button>
               <LinkContainer
                 to={`/countries/${country.name.common}`}
                 state={{ country: country }}
@@ -140,4 +142,4 @@ const Countries = () => {
   );
 };
 
-export default Countries;
+export default Favorites;
