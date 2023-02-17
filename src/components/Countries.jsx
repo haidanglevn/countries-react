@@ -9,25 +9,30 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
-import { initializeCountries } from "../features/countries/countriesSlice";
 import { Spinner } from "react-bootstrap";
+import { initializeCountries } from "../features/countries/countriesSlice";
 import { addFavorite } from "../features/countries/favoriteSlice";
 
 
 const Countries = () => {
   const dispatch = useDispatch();
-
   const countriesList = useSelector((state) => state.countries.countries);
   const loading = useSelector((state) => state.countries.isLoading);
   const [search, setSearch] = useState("");
-  
+  const favoritesList2= useSelector((state)=> state.favorites.favorites)
+  const favoritesList = localStorage.getItem("Favorites");
+  console.log("Favorites" ,favoritesList )
 
   //  console.log("Search: ", search)
   console.log(countriesList);
   useEffect(() => {
     dispatch(initializeCountries());
   }, [dispatch]);
+  
+  useEffect(()=> {
 
+  },[])
+  
   const renderApp = () => {
     if (loading == true) {
       console.log(`page is loading`);
@@ -54,12 +59,6 @@ const Countries = () => {
         .map((country) => {
           return (
             <Col className="mt-5" key={country.name.common}>
-              <button>
-                <i
-                  className="bi bi-heart-fill"
-                  onClick={() => dispatch(addFavorite(country.name.common))}
-                ></i>
-              </button>
               <LinkContainer
                 to={`/countries/${country.name.common}`}
                 state={{ country: country }}
@@ -81,6 +80,27 @@ const Countries = () => {
                       variant="flush"
                       className="flex-grow-1 justify-content-end"
                     >
+                      <ListGroup.Item>
+                        {favoritesList.includes(country.name.common) ? (
+                          <button>
+                            <i
+                              className="bi bi-heart-fill"
+                              onClick={() =>
+                                dispatch(addFavorite(country.name.common))
+                              }
+                            ></i>
+                          </button>
+                        ) : (
+                          <button>
+                            <i
+                              className="bi bi-heart"
+                              onClick={() =>
+                                dispatch(addFavorite(country.name.common))
+                              }
+                            ></i>
+                          </button>
+                        )}
+                      </ListGroup.Item>
                       <ListGroup.Item>
                         <i className="bi bi-translate me-2">
                           {` ${Object.values(country.languages || {}).join(
