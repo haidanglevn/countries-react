@@ -51,6 +51,9 @@ const Layout = () => {
           <LinkContainer to="/favorites">
             <Nav.Link>Favorites</Nav.Link>
           </LinkContainer>
+          <LinkContainer to="/test">
+            <Nav.Link>Test</Nav.Link>
+          </LinkContainer>
         </Nav>
       );
     }

@@ -15,7 +15,7 @@ import { initializeCountries } from "../features/countries/countriesSlice";
 import { addFavorite } from "../features/countries/favoriteSlice";
 
 
-const Countries = () => {
+const Test = () => {
   const dispatch = useDispatch();
   const countriesList = useSelector((state) => state.countries.countries);
   const loading = useSelector((state) => state.countries.isLoading);
@@ -160,4 +160,4 @@ const Countries = () => {
   );
 };
 
-export default Countries;
+export default Test;
