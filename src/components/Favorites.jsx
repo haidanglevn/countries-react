@@ -53,6 +53,8 @@ const Favorites = () => {
     if (loading == true) {
       return <SkeletonLoading />;
     } else {
+      // if (countriesList.length == 0) {console.log("Favorite is empty")};
+      // future feature: empty favorite page
       return countriesList
         .filter((c) => {
           return c.name.official.toLowerCase().includes(search.toLowerCase());
