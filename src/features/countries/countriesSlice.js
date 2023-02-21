@@ -23,7 +23,7 @@ export const initializeCountries = () => {
     setTimeout(() => {
       dispatch(getCountries(countries));
       dispatch(isLoading(false));
-    }, 2000);
+    }, 4000);
   };
 };
 

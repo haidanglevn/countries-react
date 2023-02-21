@@ -9,7 +9,7 @@ import Row from "react-bootstrap/Row";
 import { LinkContainer } from "react-router-bootstrap";
 import Button from "react-bootstrap/Button";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import { useDispatch, useSelector } from "react-redux";
 import { initializeCountries } from "../features/countries/countriesSlice";
@@ -25,18 +25,28 @@ const Countries = () => {
   const loading = useSelector((state) => state.countries.isLoading);
   const [search, setSearch] = useState("");
   const favoritesList = useSelector((state) => state.favorites.favorites);
-  console.log("Favorites list in country", favoritesList);
 
   useEffect(() => {
     dispatch(initializeCountries());
   }, [dispatch]);
 
+  const dispatchHandler = (countryName, action) => {
+    switch (action) {
+      case "add": 
+      dispatch(addFavorite(countryName));
+      toast.success(`Successfully added ${countryName} into favorites`);
+      break;
+      case "remove": 
+      dispatch(removeFavorite(countryName));
+      toast.success(`Successfully removed ${countryName} from favorites`);
+      break;
+    }
+  }
+
   const renderApp = () => {
     if (loading === true) {
-      console.log(`page is loading`);
       return <SkeletonLoading />;
     } else {
-      console.log(`Loading done!`);
       return countriesList
         .filter((c) => {
           return c.name.official.toLowerCase().includes(search.toLowerCase());
@@ -71,7 +81,7 @@ const Countries = () => {
                         <Button
                           variant="success"
                           onClick={() =>
-                            dispatch(removeFavorite(country.name.common))
+                            dispatchHandler(country.name.common, "remove")
                           }
                         >
                           Added to favorites{" "}
@@ -81,7 +91,7 @@ const Countries = () => {
                         <Button
                           variant="primary"
                           onClick={() =>
-                            dispatch(addFavorite(country.name.common))
+                            dispatchHandler(country.name.common, "add")
                           }
                         >
                           Add to favorites <i className="bi bi-heart"></i>
@@ -142,7 +152,7 @@ const Countries = () => {
       <Row xs={2} md={3} lg={4} className=" g-3">
         {renderApp()}
       </Row>
-      <ToastContainer />
+      
     </Container>
   );
 };

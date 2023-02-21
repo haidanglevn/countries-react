@@ -7,16 +7,16 @@ import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
 import { Button } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { initializeCountries } from "../features/countries/countriesSlice";
-import { clearFavorites } from "../features/countries/favoritesSlice";
-import SkeletonLoading from "./SkeletonLoading";
 import {
-  addFavorite,
   removeFavorite,
+  clearFavorites,
 } from "../features/countries/favoritesSlice";
+import SkeletonLoading from "./SkeletonLoading";
 
 const Favorites = () => {
   const dispatch = useDispatch();
@@ -33,19 +33,26 @@ const Favorites = () => {
   } else {
     countriesList = [];
   }
-
-  //  console.log("Search: ", search)
-  console.log(countriesList);
   useEffect(() => {
     dispatch(initializeCountries());
   }, [dispatch]);
 
+  const dispatchHandler = (countryName, action) => {
+    switch (action) {
+      case "clear":
+        dispatch(clearFavorites());
+        toast.success(`Successfully clear all favorites`);
+        break;
+      case "remove":
+        dispatch(removeFavorite(countryName));
+        toast.success(`Successfully removed ${countryName} from favorites`);
+        break;
+    }
+  };
   const renderApp = () => {
     if (loading == true) {
-      console.log(`page is loading`);
       return <SkeletonLoading />;
     } else {
-      console.log(`Loading done!`);
       return countriesList
         .filter((c) => {
           return c.name.official.toLowerCase().includes(search.toLowerCase());
@@ -76,14 +83,14 @@ const Favorites = () => {
                     className="flex-grow-1 justify-content-end"
                   >
                     <ListGroup.Item>
-                        <Button
-                          variant="danger"
-                          onClick={() =>
-                            dispatch(removeFavorite(country.name.common))
-                          }
-                        >
-                          Remove from favorites{" "}
-                        </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() =>
+                          dispatchHandler(country.name.common, "remove")
+                        }
+                      >
+                        Remove from favorites{" "}
+                      </Button>
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <i className="bi bi-translate me-2">
@@ -152,7 +159,7 @@ const Favorites = () => {
         <Button
           variant="danger"
           onClick={() => {
-            dispatch(clearFavorites());
+            dispatchHandler(null, "clear");
           }}
         >
           Clear Favorites
