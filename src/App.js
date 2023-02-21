@@ -12,7 +12,6 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import Register from "./components/Register";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./auth/firebase";
-import Test from "./components/Test";
 
 const App = () => {
   const [user] = useAuthState(auth);
@@ -24,7 +23,6 @@ const App = () => {
           <Route path="/" element={<Home />} />{" "}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/test" element={<Test />} />
           
           <Route element={<ProtectedRoute user={user} />}>
             <Route path="/countries" element={<Countries />} />
