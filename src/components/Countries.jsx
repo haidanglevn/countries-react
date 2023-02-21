@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -7,11 +6,17 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
-import Button from "react-bootstrap/Button";
-import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
+import Button from "react-bootstrap/Button";
+
+import { ToastContainer, toast } from "react-toastify";
+
+import { useDispatch, useSelector } from "react-redux";
 import { initializeCountries } from "../features/countries/countriesSlice";
-import { addFavorite } from "../features/countries/favoriteSlice";
+import {
+  addFavorite,
+  removeFavorite,
+} from "../features/countries/favoritesSlice";
 import SkeletonLoading from "./SkeletonLoading";
 
 const Countries = () => {
@@ -19,19 +24,15 @@ const Countries = () => {
   const countriesList = useSelector((state) => state.countries.countries);
   const loading = useSelector((state) => state.countries.isLoading);
   const [search, setSearch] = useState("");
-  const favoritesList = localStorage.getItem("Favorites");
-  console.log("Favorites", favoritesList);
+  const favoritesList = useSelector((state) => state.favorites.favorites);
+  console.log("Favorites list in country", favoritesList);
 
-  //  console.log("Search: ", search)
-  console.log(countriesList);
   useEffect(() => {
     dispatch(initializeCountries());
   }, [dispatch]);
 
-  useEffect(() => {}, []);
-
   const renderApp = () => {
-    if (loading == true) {
+    if (loading === true) {
       console.log(`page is loading`);
       return <SkeletonLoading />;
     } else {
@@ -51,7 +52,7 @@ const Countries = () => {
                     style={{
                       objectFit: "cover",
                       minHeight: "200px",
-                      cursor:"pointer"
+                      cursor: "pointer",
                     }}
                   >
                     <Card.Img src={country.flags.svg}></Card.Img>
@@ -67,24 +68,23 @@ const Countries = () => {
                   >
                     <ListGroup.Item>
                       {favoritesList.includes(country.name.common) ? (
-                        <Button variant="success">
+                        <Button
+                          variant="success"
+                          onClick={() =>
+                            dispatch(removeFavorite(country.name.common))
+                          }
+                        >
                           Added to favorites{" "}
-                          <i
-                            className="bi bi-heart-fill"
-                            onClick={() =>
-                              dispatch(addFavorite(country.name.common))
-                            }
-                          ></i>
+                          <i className="bi bi-heart-fill"></i>
                         </Button>
                       ) : (
-                        <Button variant="primary">
-                          Add to favorites{" "}
-                          <i
-                            className="bi bi-heart"
-                            onClick={() =>
-                              dispatch(addFavorite(country.name.common))
-                            }
-                          ></i>
+                        <Button
+                          variant="primary"
+                          onClick={() =>
+                            dispatch(addFavorite(country.name.common))
+                          }
+                        >
+                          Add to favorites <i className="bi bi-heart"></i>
                         </Button>
                       )}
                     </ListGroup.Item>
@@ -142,6 +142,7 @@ const Countries = () => {
       <Row xs={2} md={3} lg={4} className=" g-3">
         {renderApp()}
       </Row>
+      <ToastContainer />
     </Container>
   );
 };

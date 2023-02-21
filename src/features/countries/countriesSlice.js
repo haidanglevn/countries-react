@@ -6,7 +6,6 @@ export const countrySlice = createSlice({
   initialState: {
     countries: [],
     isLoading: true,
-    countrySingle: [],
   },
   reducers: {
     getCountries(state, action) {
@@ -24,7 +23,7 @@ export const initializeCountries = () => {
     setTimeout(() => {
       dispatch(getCountries(countries));
       dispatch(isLoading(false));
-    }, 1500);
+    }, 2000);
   };
 };
 

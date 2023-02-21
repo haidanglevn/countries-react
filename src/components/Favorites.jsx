@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -7,11 +6,17 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
+import { Button } from "react-bootstrap";
+
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { initializeCountries } from "../features/countries/countriesSlice";
-import { Spinner } from "react-bootstrap";
-import { addFavorite } from "../features/countries/favoriteSlice";
+import { clearFavorites } from "../features/countries/favoritesSlice";
+import SkeletonLoading from "./SkeletonLoading";
+import {
+  addFavorite,
+  removeFavorite,
+} from "../features/countries/favoritesSlice";
 
 const Favorites = () => {
   const dispatch = useDispatch();
@@ -19,7 +24,7 @@ const Favorites = () => {
   let countriesList = useSelector((state) => state.countries.countries);
   const loading = useSelector((state) => state.countries.isLoading);
   const [search, setSearch] = useState("");
-  const [favoritesList, setFavoritesList] = useState([]);
+  const favoritesList = useSelector((state) => state.favorites.favorites);
 
   if (favoritesList !== null) {
     countriesList = countriesList.filter((c) =>
@@ -33,26 +38,12 @@ const Favorites = () => {
   console.log(countriesList);
   useEffect(() => {
     dispatch(initializeCountries());
-    setFavoritesList(localStorage.getItem("Favorites"));
   }, [dispatch]);
 
   const renderApp = () => {
     if (loading == true) {
       console.log(`page is loading`);
-      return (
-        <Col style={{ width: "100%", padding: "50px 0" }}>
-          <div className="d-flex justify-content-center">
-            <div>
-              <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
-            </div>
-            <div>
-              <p>Loading, please wait....</p>
-            </div>
-          </div>
-        </Col>
-      );
+      return <SkeletonLoading />;
     } else {
       console.log(`Loading done!`);
       return countriesList
@@ -62,57 +53,67 @@ const Favorites = () => {
         .map((country) => {
           return (
             <Col className="mt-5" key={country.name.common}>
-              <LinkContainer
-                to={`/countries/${country.name.common}`}
-                state={{ country: country }}
-              >
-                <Card className="h-100">
-                  <Card.Body className="d-flex flex-column">
-                    <Card.Img
-                      src={country.flags.svg}
-                      style={{
-                        objectFit: "cover",
-                        height: "200px",
-                      }}
-                    ></Card.Img>
-                    <Card.Title>{country.name.common}</Card.Title>
-                    <Card.Subtitle className="mb-5 text-muted">
-                      {country.name.official}
-                    </Card.Subtitle>
-                    <ListGroup
-                      variant="flush"
-                      className="flex-grow-1 justify-content-end"
-                    >
-                      <ListGroup.Item>
-                        <i className="bi bi-translate me-2">
-                          {` ${Object.values(country.languages || {}).join(
-                            ", "
-                          )}`}
-                          {/* Martin way */}
-                        </i>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <i className="bi bi-cash-coin me-2">
-                          {country.currencies
-                            ? ` ${Object.values(country.currencies)
-                                .map((currency) => currency.name)
-                                .join(", ")}`
-                            : `-------`}{" "}
-                          {/* Lera way */}
-                        </i>
-                      </ListGroup.Item>
+              <Card className="h-100">
+                <Card.Body className="d-flex flex-column">
+                  <LinkContainer
+                    to={`/countries/${country.name.common}`}
+                    state={{ country: country }}
+                    style={{
+                      objectFit: "cover",
+                      minHeight: "200px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Card.Img src={country.flags.svg}></Card.Img>
+                  </LinkContainer>
 
-                      <ListGroup.Item>
-                        <i className="bi bi-people me-2">
-                          {` ${new Intl.NumberFormat().format(
-                            country.population
-                          )}`}
-                        </i>
-                      </ListGroup.Item>
-                    </ListGroup>
-                  </Card.Body>
-                </Card>
-              </LinkContainer>
+                  <Card.Title>{country.name.common}</Card.Title>
+                  <Card.Subtitle className="mb-5 text-muted">
+                    {country.name.official}
+                  </Card.Subtitle>
+                  <ListGroup
+                    variant="flush"
+                    className="flex-grow-1 justify-content-end"
+                  >
+                    <ListGroup.Item>
+                        <Button
+                          variant="danger"
+                          onClick={() =>
+                            dispatch(removeFavorite(country.name.common))
+                          }
+                        >
+                          Remove from favorites{" "}
+                        </Button>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <i className="bi bi-translate me-2">
+                        {` ${Object.values(country.languages || {}).join(
+                          ", "
+                        )}`}
+                        {/* Martin way */}
+                      </i>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <i className="bi bi-cash-coin me-2">
+                        {country.currencies
+                          ? ` ${Object.values(country.currencies)
+                              .map((currency) => currency.name)
+                              .join(", ")}`
+                          : `-------`}{" "}
+                        {/* Lera way */}
+                      </i>
+                    </ListGroup.Item>
+
+                    <ListGroup.Item>
+                      <i className="bi bi-people me-2">
+                        {` ${new Intl.NumberFormat().format(
+                          country.population
+                        )}`}
+                      </i>
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Card.Body>
+              </Card>
             </Col>
           );
         });
@@ -135,8 +136,27 @@ const Favorites = () => {
           </Form>
         </Col>
       </Row>
-      <Row xs={2} md={3} lg={4} className=" g-3">
+      <Row xs={2} md={3} lg={4} className="g-3">
         {renderApp()}
+      </Row>{" "}
+      <Row
+        xs={2}
+        md={3}
+        lg={4}
+        className="mt-2 mb-5 g-3 m-auto"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Button
+          variant="danger"
+          onClick={() => {
+            dispatch(clearFavorites());
+          }}
+        >
+          Clear Favorites
+        </Button>
       </Row>
     </Container>
   );
