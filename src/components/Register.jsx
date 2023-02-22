@@ -4,6 +4,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, registerWithEmailAndPassword } from "../auth/firebase";
 
+import "./LoginRegister.scss";
+
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,29 +25,34 @@ const Register = () => {
   }, [user, loading]);
 
   return (
-    <div>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Full name"
-      />
-      <input
-        type="text"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      />
-      <Button onClick={register}>Register</Button>
-      <div>
-        Already have an account?
-        <Link to={"/login"}>Login</Link>
+    <div className="App">
+      <div className="panel">
+        <h1>Register an account</h1>
+        <form>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Full name"
+          />
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+          />
+        </form>
+          <Button onClick={register}>Register</Button>
+        <div>
+          Already have an account?
+          <Link to={"/login"}>Login</Link>
+        </div>
       </div>
     </div>
   );

@@ -62,10 +62,10 @@ const Layout = () => {
         <div
           style={{
             display: "flex",
-            alignItems:"center" ,
+            alignItems: "center",
             justifyContent: "space-between",
-            gap:"10px",
-            color: "white"
+            gap: "10px",
+            color: "white",
           }}
         >
           Welcome, {showUser()} <br />
@@ -73,7 +73,7 @@ const Layout = () => {
         </div>
       );
     }
-  }
+  };
 
   return (
     <Container fluid>

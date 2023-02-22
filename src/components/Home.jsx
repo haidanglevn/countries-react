@@ -12,9 +12,14 @@ const Home = () => {
           <h2>
             One click to get all the information of the countries you love.
           </h2>
-          <Button variant="primary"><Link to={"/countries"}>Get Started</Link> </Button>
+          <Button variant="primary">
+            <Link to={"/countries"}>Get Started</Link>{" "}
+          </Button>
         </div>
-        <span>
+        <span className="footer">
+          Created by <a href="https://github.com/haidanglevn">Dang Le</a> 2023
+        </span>
+        <span className="credit">
           Photo by{" "}
           <a href="https://unsplash.com/@patricktkindt?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
             Patrick T'Kindt

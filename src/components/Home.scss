@@ -14,7 +14,16 @@
     color: white;
     position: fixed;
     bottom: 0;
-    right: 10px;
+  }
+  span a {
+    text-decoration: none;
+    color: #3A98B9;
+  }
+  .footer {
+    left: 10px;
+  }
+  .credit {
+    right:10px;
   }
 }
 

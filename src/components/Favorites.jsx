@@ -62,10 +62,13 @@ const Favorites = () => {
         .map((country) => {
           return (
             <Col className="mt-5" key={country.name.common}>
-              <Card className="h-100" style={{
+              <Card
+                className="h-100"
+                style={{
                   backgroundColor: "#FFF1DC",
                   border: "2px solid #E8D5C4",
-                }}>
+                }}
+              >
                 <Card.Body className="d-flex flex-column">
                   <LinkContainer
                     to={`/countries/${country.name.common}`}
@@ -88,7 +91,7 @@ const Favorites = () => {
                     variant="flush"
                     className="flex-grow-1 justify-content-end"
                   >
-                    <ListGroup.Item>
+                    <ListGroup.Item style={{ backgroundColor: "#FFF1DC" }}>
                       <Button
                         variant="danger"
                         onClick={() =>
@@ -98,7 +101,7 @@ const Favorites = () => {
                         Remove from favorites{" "}
                       </Button>
                     </ListGroup.Item>
-                    <ListGroup.Item>
+                    <ListGroup.Item style={{ backgroundColor: "#FFF1DC" }}>
                       <i className="bi bi-translate me-2">
                         {` ${Object.values(country.languages || {}).join(
                           ", "
@@ -106,7 +109,7 @@ const Favorites = () => {
                         {/* Martin way */}
                       </i>
                     </ListGroup.Item>
-                    <ListGroup.Item>
+                    <ListGroup.Item style={{ backgroundColor: "#FFF1DC" }}>
                       <i className="bi bi-cash-coin me-2">
                         {country.currencies
                           ? ` ${Object.values(country.currencies)
@@ -116,8 +119,7 @@ const Favorites = () => {
                         {/* Lera way */}
                       </i>
                     </ListGroup.Item>
-
-                    <ListGroup.Item>
+                    <ListGroup.Item style={{ backgroundColor: "#FFF1DC" }}>
                       <i className="bi bi-people me-2">
                         {` ${new Intl.NumberFormat().format(
                           country.population
@@ -136,8 +138,11 @@ const Favorites = () => {
   return (
     <Container fluid className="App pb-5">
       <Row style={{ margin: "0", paddingTop: "20px", color: "#EEEEEE" }}>
-        <Col className="mt-5 d-flex justify-content-center">
+        <Col className="mt-2 d-flex justify-content-center">
           <Form>
+            <Row style={{ margin: "0", color: "#EEEEEE" }}>
+              <h1>Favorite List</h1>
+            </Row>
             <Form.Control
               style={{ width: "18rem" }}
               type="search"

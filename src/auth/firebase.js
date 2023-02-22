@@ -14,12 +14,8 @@ import {
   addDoc,
   getDocs,
 } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { toast } from "react-toastify";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBZII48XAyWMpYOjXA9oHf36-bcNQVI3eA",
   authDomain: "countries-leson.firebaseapp.com",
@@ -39,9 +35,10 @@ const db = getFirestore(app);
 const loginWithEmailAndPassword = async (email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
+    toast.success("Login successfully");
   } catch (err) {
     console.log(err);
-    alert(err.message);
+    toast.error("Wrong email/password, please check again");
   }
 };
 
@@ -55,15 +52,16 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       email,
       authProvider: "local",
     });
+    toast.success("Register successfully with your new account");
   } catch (err) {
     console.log(err);
-    alert(err.message);
+    toast.error(err.message);
   }
 };
 
 const logout = () => {
   signOut(auth);
-  alert("Log out successfully")
+  toast.success("Log out successfully");
 };
 
 export {

@@ -4,6 +4,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, loginWithEmailAndPassword } from "../auth/firebase";
 
+import "./LoginRegister.scss";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,26 +19,30 @@ const Login = () => {
   }, [user, loading]);
 
   return (
-    <div>
-      <h1>Hello there, please register or log in to use the site!</h1>
-      <input
-        type="text"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      />
-      <Button onClick={() => loginWithEmailAndPassword(email, password)}>
-        Log in
-      </Button>
-      <div >
-        Don't have an account?
-        <Link to={"/register"}>Register</Link>
+    <div className="App">
+      <div className="panel">
+        <h1>Log in to use the site!</h1>
+        <form>
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+          />
+        </form>
+        <Button onClick={() => loginWithEmailAndPassword(email, password)}>
+          Log in
+        </Button>
+        <div>
+          Don't have an account?
+          <Link to={"/register"}>Register</Link>
+        </div>
       </div>
     </div>
   );
