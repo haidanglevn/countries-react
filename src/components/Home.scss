@@ -1,0 +1,43 @@
+.home {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  .hero {
+    display: flex;
+    background-image: url("../assets/globe.jpeg");
+    height: calc(100vh - 56px);
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+  }
+  span {
+    color: white;
+    position: fixed;
+    bottom: 0;
+    right: 10px;
+  }
+}
+
+.hero-title {
+  width: 35vw;
+  padding-top: 4em;
+  padding-left: 4em;
+  color: white;
+  h1 {
+    font-size: 3.5em;
+  }
+  h2 {
+    padding-top: 2em;
+    font-size: 1.5em;
+  }
+  button {
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 10px;
+    font-size: 1.5em;
+  }
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
