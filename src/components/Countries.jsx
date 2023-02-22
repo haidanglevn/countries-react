@@ -32,16 +32,30 @@ const Countries = () => {
 
   const dispatchHandler = (countryName, action) => {
     switch (action) {
-      case "add": 
-      dispatch(addFavorite(countryName));
-      toast.success(`Successfully added ${countryName} into favorites`);
-      break;
-      case "remove": 
-      dispatch(removeFavorite(countryName));
-      toast.success(`Successfully removed ${countryName} from favorites`);
-      break;
+      case "add":
+        dispatch(addFavorite(countryName));
+        toast.success(`Successfully added ${countryName} into favorites`);
+        break;
+      case "remove":
+        dispatch(removeFavorite(countryName));
+        toast.success(`Successfully removed ${countryName} from favorites`);
+        break;
     }
-  }
+  };
+  const renderCountriesTitle = () => {
+    if (loading === true) {
+      return <h1>Fetching countries data...</h1>;
+    } else {
+      return (
+        <>
+          <h1>Welcome!</h1>
+          <h3>
+            Search for your country below and add them to your favorite list
+          </h3>
+        </>
+      );
+    }
+  };
 
   const renderApp = () => {
     if (loading === true) {
@@ -54,7 +68,13 @@ const Countries = () => {
         .map((country) => {
           return (
             <Col className="mt-5" key={country.name.common}>
-              <Card className="h-100">
+              <Card
+                className="h-100"
+                style={{
+                  backgroundColor: "#FFF1DC",
+                  border: "2px solid #E8D5C4",
+                }}
+              >
                 <Card.Body className="d-flex flex-column">
                   <LinkContainer
                     to={`/countries/${country.name.common}`}
@@ -62,6 +82,7 @@ const Countries = () => {
                     style={{
                       objectFit: "cover",
                       minHeight: "200px",
+                      maxHeight: "200px",
                       cursor: "pointer",
                     }}
                   >
@@ -76,7 +97,7 @@ const Countries = () => {
                     variant="flush"
                     className="flex-grow-1 justify-content-end"
                   >
-                    <ListGroup.Item>
+                    <ListGroup.Item style={{ backgroundColor: "#FFF1DC" }}>
                       {favoritesList.includes(country.name.common) ? (
                         <Button
                           variant="success"
@@ -98,7 +119,7 @@ const Countries = () => {
                         </Button>
                       )}
                     </ListGroup.Item>
-                    <ListGroup.Item>
+                    <ListGroup.Item style={{ backgroundColor: "#FFF1DC" }}>
                       <i className="bi bi-translate me-2">
                         {` ${Object.values(country.languages || {}).join(
                           ", "
@@ -106,7 +127,7 @@ const Countries = () => {
                         {/* Martin way */}
                       </i>
                     </ListGroup.Item>
-                    <ListGroup.Item>
+                    <ListGroup.Item style={{ backgroundColor: "#FFF1DC" }}>
                       <i className="bi bi-cash-coin me-2">
                         {country.currencies
                           ? ` ${Object.values(country.currencies)
@@ -117,7 +138,7 @@ const Countries = () => {
                       </i>
                     </ListGroup.Item>
 
-                    <ListGroup.Item>
+                    <ListGroup.Item style={{ backgroundColor: "#FFF1DC" }}>
                       <i className="bi bi-people me-2">
                         {` ${new Intl.NumberFormat().format(
                           country.population
@@ -134,14 +155,17 @@ const Countries = () => {
   };
 
   return (
-    <Container fluid className="App">
+    <Container fluid className="App pb-5">
+      <Row style={{ margin: "0", paddingTop: "20px", color: "#EEEEEE" }}>
+        {renderCountriesTitle()}
+      </Row>
       <Row>
-        <Col className="mt-5 d-flex justify-content-center">
+        <Col className="mt-0 d-flex justify-content-center">
           <Form>
             <Form.Control
-              style={{ width: "18rem" }}
+              style={{ width: "30vw", textAlign: "center" }}
               type="search"
-              className="me-2 "
+              className="me-2"
               placeholder="Search for countries"
               aria-label="Search"
               onChange={(e) => setSearch(e.target.value)}
@@ -149,10 +173,9 @@ const Countries = () => {
           </Form>
         </Col>
       </Row>
-      <Row xs={2} md={3} lg={4} className=" g-3">
+      <Row xs={2} md={3} lg={4} className="g-3">
         {renderApp()}
       </Row>
-      
     </Container>
   );
 };

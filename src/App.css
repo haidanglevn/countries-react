@@ -1,5 +1,6 @@
 .App {
   text-align: center;
   background-color: #3A98B9;
+  min-height: calc(100vh - 56px);
 }
 

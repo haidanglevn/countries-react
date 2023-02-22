@@ -64,7 +64,8 @@ const Layout = () => {
             display: "flex",
             alignItems:"center" ,
             justifyContent: "space-between",
-            gap:"10px"
+            gap:"10px",
+            color: "white"
           }}
         >
           Welcome, {showUser()} <br />

@@ -62,7 +62,10 @@ const Favorites = () => {
         .map((country) => {
           return (
             <Col className="mt-5" key={country.name.common}>
-              <Card className="h-100">
+              <Card className="h-100" style={{
+                  backgroundColor: "#FFF1DC",
+                  border: "2px solid #E8D5C4",
+                }}>
                 <Card.Body className="d-flex flex-column">
                   <LinkContainer
                     to={`/countries/${country.name.common}`}
@@ -70,6 +73,7 @@ const Favorites = () => {
                     style={{
                       objectFit: "cover",
                       minHeight: "200px",
+                      maxHeight: "200px",
                       cursor: "pointer",
                     }}
                   >
@@ -130,8 +134,8 @@ const Favorites = () => {
   };
 
   return (
-    <Container fluid>
-      <Row>
+    <Container fluid className="App pb-5">
+      <Row style={{ margin: "0", paddingTop: "20px", color: "#EEEEEE" }}>
         <Col className="mt-5 d-flex justify-content-center">
           <Form>
             <Form.Control
