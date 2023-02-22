@@ -5,7 +5,7 @@ import Favorites from "./components/Favorites";
 import CountriesSingle from "./components/CountriesSingle";
 import Home from "./components/Home";
 import Layout from "./pages/Layout";
-import "./App.css";
+import "./App.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Login from "./components/Login";
 import ProtectedRoute from "./auth/ProtectedRoute";
