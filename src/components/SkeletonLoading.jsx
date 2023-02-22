@@ -1,8 +1,6 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
-import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
-import Row from "react-bootstrap/Row";
 
 import "./SkeletonLoading.css";
 const SkeletonLoading = () => {
