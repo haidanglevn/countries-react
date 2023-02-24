@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/countries-react/static/css/main.0fb3394f.css",
+    "main.js": "/countries-react/static/js/main.ffb487dc.js",
+    "static/media/globe.jpeg": "/countries-react/static/media/globe.b7fe6b0c314ba862edda.jpeg",
+    "static/media/bootstrap-icons.woff?": "/countries-react/static/media/bootstrap-icons.e559bf06bc84fd9525e6.woff",
+    "static/media/bootstrap-icons.woff2?": "/countries-react/static/media/bootstrap-icons.ea98e12d2d58747f9fc5.woff2",
+    "index.html": "/countries-react/index.html",
+    "main.0fb3394f.css.map": "/countries-react/static/css/main.0fb3394f.css.map",
+    "main.ffb487dc.js.map": "/countries-react/static/js/main.ffb487dc.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0fb3394f.css",
+    "static/js/main.ffb487dc.js"
+  ]
+}
