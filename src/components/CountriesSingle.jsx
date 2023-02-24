@@ -84,21 +84,23 @@ const CountriesSingle = () => {
                 margin: "20px 0",
               }}
             />
-            {favoritesList.includes(country.name.common) ? (
-              <Button
-                variant="success"
-                onClick={() => dispatchHandler(country.name.common, "remove")}
-              >
-                Added to favorites <i className="bi bi-heart-fill"></i>
-              </Button>
-            ) : (
-              <Button
-                variant="primary"
-                onClick={() => dispatchHandler(country.name.common, "add")}
-              >
-                Add to favorites <i className="bi bi-heart"></i>
-              </Button>
-            )}
+            <div>
+              {favoritesList.includes(country.name.common) ? (
+                <Button
+                  variant="success"
+                  onClick={() => dispatchHandler(country.name.common, "remove")}
+                >
+                  Added to favorites <i className="bi bi-heart-fill"></i>
+                </Button>
+              ) : (
+                <Button
+                  variant="primary"
+                  onClick={() => dispatchHandler(country.name.common, "add")}
+                >
+                  Add to favorites <i className="bi bi-heart"></i>
+                </Button>
+              )}
+            </div>
             <div className="info-details">
               <table>
                 <tr>

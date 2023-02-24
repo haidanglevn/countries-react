@@ -163,7 +163,7 @@ const Countries = () => {
       </Row>
       <Row>
         <Col className="mt-0 d-flex justify-content-center">
-          <Form>
+          <Form onSubmit={(e)=> e.preventDefault()}>
             <Form.Control
               style={{ width: "30vw", textAlign: "center" }}
               type="search"
