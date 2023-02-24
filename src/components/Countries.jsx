@@ -40,6 +40,8 @@ const Countries = () => {
         dispatch(removeFavorite(countryName));
         toast.success(`Successfully removed ${countryName} from favorites`);
         break;
+      default: 
+        break;
     }
   };
   const renderCountriesTitle = () => {

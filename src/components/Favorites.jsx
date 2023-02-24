@@ -47,10 +47,12 @@ const Favorites = () => {
         dispatch(removeFavorite(countryName));
         toast.success(`Successfully removed ${countryName} from favorites`);
         break;
+      default: 
+      break;
     }
   };
   const renderApp = () => {
-    if (loading == true) {
+    if (loading === true) {
       return <SkeletonLoading />;
     } else {
       // if (countriesList.length == 0) {console.log("Favorite is empty")};
