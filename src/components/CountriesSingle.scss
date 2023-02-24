@@ -1,0 +1,57 @@
+.country-single {
+  padding: 20px 2em;
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  .info {
+    flex-grow: 3;
+    background-color: #fff1dc;
+    border-radius: 20px;
+
+    .info-details {
+      padding: 20px 0;
+    }
+
+    table {
+        margin: 0 auto;
+      align-items: center;
+      justify-content: center;
+      width: 75%;
+      border-collapse: collapse;
+
+      td {
+        height: 30px;
+        padding-left: 20px;
+        text-align: left;
+        border-bottom: 1px dotted black;
+      }
+    }
+  }
+  .weather {
+    max-height: 400px;
+    background-color: #f9f9f9;
+    border: 1px solid black;
+    border-radius: 20px;
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    color: white;
+    text-shadow: 0 0 5px #000000;
+
+    .detail-temp {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-self: flex-end;
+    }
+    .detail-temp div {
+      background-color: #2f58cd;
+      min-width: 100px;
+      border: 1px solid black;
+      border-radius: 10px;
+      padding: 10px;
+    }
+  }
+}
