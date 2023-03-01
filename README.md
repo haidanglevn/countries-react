@@ -24,7 +24,7 @@ Built with:
 
 ## Setup and usage
 
-Live page [here](https://github.com/margittennosaar/markdown_study_materials)
+Live page [here](https://countries-react-haidanglevn.netlify.app)
 
 ## Screenshot
 
