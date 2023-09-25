@@ -43,6 +43,9 @@ const Login = () => {
           Don't have an account?
           <Link to={"/register"}>Register</Link>
         </div>
+        <div>
+          For testing, please use "test4@gmail.com" & "123456"
+        </div>
       </div>
     </div>
   );
